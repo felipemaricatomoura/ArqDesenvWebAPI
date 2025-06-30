@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+	  <!-- Aplicação em dotnet 9 --> 
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
+	  <!-- Incluindo o swagger no dotnet 9 que não vem mais por padrão nesta versão -->
+	  
+	  <!-- Incluindo o swagger no dotnet 9 que não vem mais por padrão nesta versão -->o bsuporte ao banco de dados na memoryiaque pressiisti dados na ememória ranm<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
+	<!-- Incluindo o swagger no dotnet 9 que não vem mais por padrão nesta versão -->
+	<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.1" />    
+	   
+  </ItemGroup>
+
+</Project>
