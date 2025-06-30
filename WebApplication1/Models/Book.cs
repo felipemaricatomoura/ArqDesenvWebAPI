@@ -36,17 +36,30 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
                 AuthorLastName = "Ledur",
                 Publisher = "Sagah",
                 YearPublishedDate = 2019,
-                City = "Porto Alegre"
+                City = "Porto Alegre",
+                EtAlii = false
             },
             new Book
             {
                 Id = 2,
                 Title = "Programação Back End III",
-                AuthorName = "Predro H. Chgas",
-                AuthorLastName = "Ledur",
+                AuthorName = "Predro H. Chagas",
+                AuthorLastName = "Freitas",
                 Publisher = "Sagah",
-                YearPublishedDate = 2020,
-                City = "Porto Alegre"
+                YearPublishedDate = 2021,
+                City = "Porto Alegre",
+                EtAlii = true
+            },
+            new Book
+            {
+                Id = 3,
+                Title = "RICH Internet Application e desenvolvimento Web para programadores.",
+                AuthorName = "Paul J. Ajax",
+                AuthorLastName = "Deitel",
+                Publisher = "Sagah",
+                YearPublishedDate = 2008,
+                City = "São Paulo",
+                EtAlii = false
             }
             );
     }

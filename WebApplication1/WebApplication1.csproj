@@ -8,11 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
 	<!-- Incluindo o swagger no dotnet 9 que não vem mais por padrão nesta versão -->
 	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
+	<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1" />
 	<!-- Incluindo o swagger no dotnet 9 que não vem mais por padrão nesta versão -->
-	<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.1" />    	   
+	<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.1" />
+	  
+	  <!-- Incluindo os pacotes para authentitenticação JWT -->
+	  
+	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.6" />
   </ItemGroup>
 
 </Project>
