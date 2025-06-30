@@ -7,16 +7,10 @@ using WebApplication1.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicionando os serviços de conteiner e suporte OpenAPI.
+// Adicionando os serviços de conteiner.
 builder.Services.AddControllers();
 
-builder.Services.AddOpenApi();
-
-// Adicionando o suporte ao Entity Framework Core com InMemory Database.
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseInMemoryDatabase("MyDataBase")
-);
-
+// Configuração JWT
 var key = "A320EFBA-E00C-4344-BCDB-A54B93D571A5";
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
@@ -29,28 +23,58 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
         };
+
+
+        opt.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"[JWT ERROR] Token inválido: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                Console.WriteLine("[JWT OK] Token válido");
+                return Task.CompletedTask;
+            },
+            OnChallenge = context =>
+            {
+                Console.WriteLine("[JWT CHALLENGE] Acesso negado. Token não enviado ou inválido.");
+                return Task.CompletedTask;
+            }
+        };
+
     });
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddEndpointsApiExplorer();
+// Adicionando o suporte ao Entity Framework Core com InMemory Database.
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseInMemoryDatabase("MyDataBase")
+);
 
+// Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new() { Title = "Arq. Desenv. APIS", Version = "v1" });
-
-    // Adiciona o suporte a JWT
-    c.AddSecurityDefinition("Bearer", new()
+    c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Insira 'Bearer' seguido de um espaço e o token JWT.\n\nExemplo: Bearer abc123..."
+        Title = "Arq. Desenv. de APIS para BackEnd",
+        Version = "v1",
+        Description = "API desenvolvida com .NET 9 e autenticação JWT"
     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    // Configuração do JWT no Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header usando o esquema Bearer. Digite 'Bearer' [espaço] e então seu token.",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
     {
         {
             new OpenApiSecurityScheme
@@ -59,7 +83,7 @@ builder.Services.AddSwaggerGen(c =>
                 {
                     Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
-                }
+                },
             },
             new string[] {}
         }
@@ -78,19 +102,17 @@ using (var scope = app.Services.CreateScope())
 // Configurando o PIPELINE http.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/openapi/v1.json", "Arq. Desenv. de APIS para BackEnd.");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Arq. Desenv. de APIS para BackEnd v1");
+        //options.RoutePrefix = string.Empty; // Swagger na raiz
     });
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

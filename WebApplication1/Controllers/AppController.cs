@@ -60,6 +60,7 @@ public class AppController : ControllerBase
         return Ok(books);
     }
 
+    [Authorize]
     [HttpPost("books")]
     public IActionResult CreateBook([FromBody] Book book)
     {
@@ -71,6 +72,7 @@ public class AppController : ControllerBase
         return CreatedAtAction(nameof(GetBookById), new { id = book.Id }, book);
     }
 
+    [Authorize]
     [HttpGet("books/{id}")]
     public IActionResult GetBookById(int id)
     {
@@ -81,6 +83,7 @@ public class AppController : ControllerBase
         return Ok(book);
     }
 
+    [Authorize]
     [HttpPut("books/{id}")]
     public IActionResult UpdateBook(int id, [FromBody] Book updatedBook)
     {
@@ -103,6 +106,7 @@ public class AppController : ControllerBase
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("books/{id}")]
     public IActionResult DeleteBook(int id)
     {
@@ -119,6 +123,7 @@ public class AppController : ControllerBase
 
     #region STUDENTS METHODS
 
+    [Authorize]
     [HttpGet("students")]
     public IActionResult GetStudents()
     {
@@ -126,6 +131,7 @@ public class AppController : ControllerBase
         return Ok(students);
     }
 
+    [Authorize]
     [HttpGet("students/{id}")]
     public IActionResult GetStudentById(int id)
     {
@@ -136,6 +142,7 @@ public class AppController : ControllerBase
         return Ok(student);
     }
 
+    [Authorize]
     [HttpPost("students")]
     public IActionResult CreateStudent([FromBody] Student student)
     {
@@ -148,6 +155,7 @@ public class AppController : ControllerBase
         return CreatedAtAction(nameof(GetStudentById), new { id = student.Id }, student);
     }
 
+    [Authorize]
     [HttpPut("students/{id}")]
     public IActionResult UpdateStudent(int id, [FromBody] Student updatedStudent)
     {
@@ -167,6 +175,7 @@ public class AppController : ControllerBase
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("students/{id}")]
     public IActionResult DeleteStudent(int id)
     {
