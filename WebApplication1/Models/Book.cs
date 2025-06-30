@@ -6,13 +6,13 @@ namespace WebApplication1.Models;
 public class Book
 {
     public int Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public string AuthorName { get; set; } = string.Empty;
-    public string AuthorLastName { get; set; }
-    public string Publisher { get; set; } = string.Empty;
+    public string? Title { get; set; }
+    public string? AuthorName { get; set; }
+    public string? AuthorLastName { get; set; }
+    public string? Publisher { get; set; }
     public int YearPublishedDate { get; set; }
-    public string City { get; set; }
-    public bool EtAlii { get; set; }
+    public string? City { get; set; }
+    public bool EtAlii { get; set; } = false;
 }
 
 public class BookConfiguration : IEntityTypeConfiguration<Book>
@@ -25,8 +25,7 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.Property(b => b.AuthorLastName).HasMaxLength(100);
         builder.Property(b => b.Publisher).IsRequired().HasMaxLength(150);
         builder.Property(b => b.YearPublishedDate).IsRequired();
-        builder.Property(b => b.City).HasMaxLength(100);        
-        builder.Property(b => b.EtAlii).IsRequired().HasDefaultValueSql("0");
+        builder.Property(b => b.City).HasMaxLength(100);                
 
         builder.HasData(
             new Book

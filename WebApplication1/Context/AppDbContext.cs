@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        new BookConfiguration().Configure(modelBuilder.Entity<Book>());
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfiguration(new BookConfiguration());
     }
 }
